@@ -10,7 +10,7 @@ class TestRegexVM(unittest.TestCase):
         strings = ["", "a", "aaabbb", "ab", "bbb", "aaabb"]
 
         for s in strings:
-            self.assertEqual(vm.run(s), re.fullmatch(pattern, s) is not None)
+            self.assertEqual(vm.run(s), re.match(pattern, s) is not None)
 
     def test_another_regex(self):
         pattern = "a+b*"
@@ -18,7 +18,15 @@ class TestRegexVM(unittest.TestCase):
         strings = ["", "a", "aaabbb", "ab", "bbb", "aaabb"]
 
         for s in strings:
-            self.assertEqual(vm.run(s), re.fullmatch(pattern, s) is not None)
+            self.assertEqual(vm.run(s), re.match(pattern, s) is not None)
+
+    def test_another_another_regex(self):
+        pattern = "ab*"
+        vm = RegexVM(pattern)
+        strings = ["", "a", "aaabbb", "ab", "bbb", "aaabb"]
+
+        for s in strings:
+            self.assertEqual(vm.run(s), re.match(pattern, s) is not None)
 
     def test_compilation(self):
         self.assertEqual(
