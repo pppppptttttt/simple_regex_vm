@@ -1,17 +1,24 @@
 import unittest
 from vm import RegexVM
+import re
 
 
 class TestRegexVM(unittest.TestCase):
     def test_regex(self):
-        vm = RegexVM("a+b+")
+        pattern = "a+b+"
+        vm = RegexVM(pattern)
+        strings = ["", "a", "aaabbb", "ab", "bbb", "aaabb"]
 
-        self.assertTrue((vm.run("aaabbb")))
-        self.assertTrue(vm.run("aabbb"))
-        self.assertTrue(vm.run("ab"))
-        self.assertFalse(vm.run("a"))
-        self.assertFalse(vm.run("bbb"))
-        self.assertFalse(vm.run(""))
+        for s in strings:
+            self.assertEqual(vm.run(s), re.fullmatch(pattern, s) is not None)
+
+    def test_another_regex(self):
+        pattern = "a+b*"
+        vm = RegexVM(pattern)
+        strings = ["", "a", "aaabbb", "ab", "bbb", "aaabb"]
+
+        for s in strings:
+            self.assertEqual(vm.run(s), re.fullmatch(pattern, s) is not None)
 
     def test_compilation(self):
         self.assertEqual(
